@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> </title>
+    </head>
+    <body>
+
+        <h1> Add New Class </h1>
+        
+
+        <form method="POST">
+        
+            Subject: <select name="subject">
+                <option>BIO</option>
+                <option>BUS</option>
+                <option>CST</option>
+                <option>ENVS</option>
+                <option>FYS</option>
+                <option>HCOM</option>
+                <option>KIN</option>
+                <option>MATH</option>
+                <option>PSY</option>
+                <option>SL</option>
+            </select>
+            Class Number: <input type="text" name="classNumber"><br>
+            <button>Add Class</button>
+            
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </form>        
+
+        
+    </body>
+</html>
