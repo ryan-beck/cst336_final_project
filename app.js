@@ -7,7 +7,8 @@ app.use(express.urlencoded());
 
 //routes
 app.get("/", function(req, res){
-    res.send("it works!");
+    // res.send("it works!");
+    res.render("login");
 });
 
 
@@ -27,6 +28,17 @@ app.post("/admin-add", async function(req, res) {
 
 app.get("/admin-Remove", function(req, res) {
    res.render("adminRemove"); 
+});
+
+app.post("/loginProcess", function(req, res) {
+    
+    if (req.body.password == "secret") {
+       res.send({"loginSuccess":true});
+    } else {
+       res.send(false);
+    }
+
+    
 });
 
 function insertClass(body) {

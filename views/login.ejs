@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Admin Login Screen </title>
+        
+        
+        
+        
+    </head>
+    <body>
+
+        
+        Username: <input type="text" name="username" id="username" /><br>
+
+        Password: <input type="password" id="password">
+        
+        <button id="loginBtn">Login!</button>
+        
+       
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script>
+            $("#loginBtn").on("click", function(){
+                    
+                //alert("works!");
+                
+                $.ajax({
+                
+                      method: "post",
+                         url: "/loginProcess",
+                    dataType: "json",
+                        data: { "username":$("#username").val(),
+                                "password":$("#password").val() },
+                     success: function(result,status) {
+                        //alert(result);
+                        if (!result) {
+                            
+                            alert("Wrong credentials!");
+                            
+                        } else {
+                            
+                            location.href = "/admin-add"; //redirects to admin route
+                            
+                        }
+                    }
+                    
+                });//ajax
+                
+            });//click
+        
+        </script>
+    </body>
+</html>
