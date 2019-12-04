@@ -21,10 +21,10 @@ app.post("/search", function(req, res){
     // rows = search(req.body);
 });
 
-
 app.get("/admin", function(req, res) {
    res.render("admin"); 
 });
+
 
 app.get("/admin-add", function(req, res) {
    res.render("adminAdd"); 
