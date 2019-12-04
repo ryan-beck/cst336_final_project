@@ -11,6 +11,17 @@ app.get("/", function(req, res){
     res.render("login");
 });
 
+app.get("/search", function(req, res){
+    // res.send("it works!");
+    //res.render("search");
+});
+
+app.post("/search", function(req, res){
+    // search data base for requested fields
+    // rows = search(req.body);
+});
+
+
 
 app.get("/admin-add", function(req, res) {
    res.render("adminAdd"); 
