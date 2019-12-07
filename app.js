@@ -44,8 +44,17 @@ app.post("/admin-add", async function(req, res) {
     res.render("adminAdd", {"message":message});
 });
 
-app.get("/admin-Remove", function(req, res) {
-   res.render("adminRemove"); 
+app.get("/admin-Remove", async function(req, res) {
+   let rows = await removeClass(req.query);
+   let subject = await getsubject(req.query);
+   let message = "not deleted yet";
+   console.log(rows);
+   if (rows.affectedRows > 0) {
+        message= "Class successfully deleted correctly!";
+    }
+  
+   res.render("adminRemove", {"subject":subject, "message":message}); 
+   
 });
 
 app.post("/loginProcess", async function(req, res) {
@@ -149,6 +158,58 @@ function insertClass(body) {
         });//connect
     });//promise 
 }
+function removeClass(body) {
+    let conn = dbConnection();
+    
+    //console.log(body.subject);
+    console.log(body.classNumber);
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `DELETE FROM project_classes
+                      WHERE subject = ? AND classNumber = ?`;
+                      
+        
+           let params = [body.subject, body.classNumber];
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function getsubject(){
+    
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT subject, classNumber
+                      FROM project_classes
+                      ORDER BY subject`;
+        
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+    
+}//getCategories
 
 function dbConnection(){
 
