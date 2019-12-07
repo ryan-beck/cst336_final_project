@@ -25,6 +25,12 @@ app.post("/search", function(req, res){
     // rows = search(req.body);
 });
 
+//testing login for regular users
+app.get("/regular", function(req, res){
+    res.render("regular");
+});
+
+
 app.get("/admin", function(req, res) {
    res.render("admin"); 
 });
@@ -62,25 +68,30 @@ app.post("/loginProcess", async function(req, res) {
     let users = await getUsers();
     var isUser = false;
     var passCorrect = false;
+    var checkAdmin = false;
 
 
     for (var i = 0; i < users.length; i++){
 
-        isUser = true;
         if (req.body.username == users[i].username){
             isUser = true;
         }
         if (isUser){
             if (req.body.password == users[i].pass){
                 passCorrect = true;
+                if (users[i].isAdmin == 1){
+                    checkAdmin = true;
+                }
                 break;
                 
             }
         }
     }
+    console.log(checkAdmin);
 
     if (isUser && passCorrect) {
-       res.send({"loginSuccess":true});
+       res.send({"loginSuccess":true, "isAdmin":checkAdmin});
+       
        req.session.authenticated = true;
     } else {
        res.send(false);

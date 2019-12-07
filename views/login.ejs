@@ -33,13 +33,17 @@
                                 "password":$("#password").val() },
                      success: function(result,status) {
                         //alert(result);
-                        if (!result) {
+                        if (!result.loginSuccess) {
                             
                             alert("Wrong credentials!");
                             
                         } else {
+                            if (result.isAdmin){
+                                location.href = "/admin"; //redirects to admin route
+                            } else {
+                                location.href = "/regular"; //will be route for regular users, not admin page
+                            }
                             
-                            location.href = "/admin"; //redirects to admin route
                             
                         }
                     }
