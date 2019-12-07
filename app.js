@@ -1,9 +1,13 @@
 const express = require("express");
 const mysql   = require("mysql");
 const app = express();
+const sha256  = require("sha256");
+const session = require('express-session');
+
 app.set("view engine", "ejs");
 app.use(express.static("public")); //folder for images, css, js
 app.use(express.urlencoded());
+app.use(session({ secret: 'any word', cookie: { maxAge: 60000 }}));
 
 //routes
 app.get("/", function(req, res){
@@ -44,16 +48,79 @@ app.get("/admin-Remove", function(req, res) {
    res.render("adminRemove"); 
 });
 
-app.post("/loginProcess", function(req, res) {
+app.post("/loginProcess", async function(req, res) {
     
-    if (req.body.password == "secret") {
+    let users = await getUsers();
+    var isUser = false;
+    var passCorrect = false;
+
+
+    for (var i = 0; i < users.length; i++){
+
+        isUser = true;
+        if (req.body.username == users[i].username){
+            isUser = true;
+        }
+        if (isUser){
+            if (req.body.password == users[i].pass){
+                passCorrect = true;
+                break;
+                
+            }
+        }
+    }
+
+    if (isUser && passCorrect) {
        res.send({"loginSuccess":true});
+       req.session.authenticated = true;
     } else {
        res.send(false);
     }
 
     
 });
+
+// app.post("/loginProcess", function(req, res) {
+    
+//     if ( req.body.username == "admin" && sha256(req.body.password) == "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b") {
+//       req.session.authenticated = true;
+//       res.send({"loginSuccess":true});
+//     } else {
+//       res.send(false);
+//     }
+
+    
+// });
+
+app.get("/logout", function(req, res) {
+    req.session.destroy();
+    res.redirect("/");
+});
+
+function getUsers(){
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT * 
+                      FROM project_users
+                      `;
+            // console.log(sql);        
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+            //   res.send(rows);
+              conn.end();
+            //   console.log(rows);
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+    
+}
 
 function insertClass(body) {
     let conn = dbConnection();
