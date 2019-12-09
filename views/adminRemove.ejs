@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> </title>
+    </head>
+    <body>
+
+        <h1> Remove Class </h1>
+        
+
+        <form method="GET">
+        
+            Subject: <select name="subject">
+                <option>Select one</option>
+                <option>BIO</option>
+                <option>BUS</option>
+                <option>CST</option>
+                <option>ENVS</option>
+                <option>FYS</option>
+                <option>HCOM</option>
+                <option>KIN</option>
+                <option>MATH</option>
+                <option>PSY</option>
+                <option>SL</option>
+            </select>
+            Class Number: <input type="text" name="classNumber"><br>
+            <button>remove Class</button>
+            
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </form>        
+        Subject classes already picked: 
+            <select name="subject">
+                <option value=""> Select One </option>
+                
+                <% subject.forEach(function(i){ %>
+                
+                    <option> <%=i.subject%>  <%=i.classNumber%>  </option>
+                
+                <% }); %>
+                
+            </select>
+
+        
+    </body>
+</html>
