@@ -2,10 +2,15 @@
 <html>
     <head>
         <title> </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
+        
+
+    
+    
     </head>
     <body>
 
-        <h1> Search Classes </h1>
+        <h1> Classes </h1>
         
 
         <form method="POST">
@@ -38,7 +43,7 @@
                 <% classes.forEach( function(class_){ %> 
                 <div>
                     <i><%= class_.quote %></i> <br>
-                    <a href="/#"  id="<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
+                    <a href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
                 </div>
                 <br><br>
                 <% })  %>

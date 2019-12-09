@@ -3,7 +3,9 @@ const mysql   = require("mysql");
 const app = express();
 const sha256  = require("sha256");
 const session = require('express-session');
+const bodyParser = require("body-parser");
 
+app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.use(express.static("public")); //folder for images, css, js
 app.use(express.urlencoded());
@@ -66,6 +68,14 @@ app.get("/admin-Remove", async function(req, res) {
   
    res.render("adminRemove", {"subject":subject, "message":message}); 
    
+});
+
+app.get("/classPage", function(req, res) {
+    //console.log(req);
+    let id = req.query.classId;
+    console.log("id: " + id);
+    res.render("classPage", {"classId":id});
+
 });
 
 app.post("/loginProcess", async function(req, res) {
@@ -158,10 +168,10 @@ function insertClass(body) {
            console.log("Connected!");
         
            let sql = `INSERT INTO project_classes
-                        (subject, classNumber)
-                         VALUES (?,?)`;
+                        (subject, classNumber, title)
+                         VALUES (?,?,?)`;
         
-           let params = [body.subject, body.classNumber];
+           let params = [body.subject, body.classNumber, body.title];
         
            conn.query(sql, params, function (err, rows, fields) {
               if (err) throw err;
