@@ -12,16 +12,22 @@ app.get("/", function(req, res){
 });
 
 app.get("/search", function(req, res){
-    // res.send("it works!");
-    //res.render("search");
+    res.render("search");
 });
 
-app.post("/search", function(req, res){
-    // search data base for requested fields
-    // rows = search(req.body);
+app.post("/search", async function(req, res){
+    // search database for requested fields
+    
+    let rows = await searchClasses(req.body);
+    if(Object.entries(rows).length === 0 ) {
+        rows = "None";
+    }
+    res.render("search", {"classes": rows});
 });
 
-
+app.get("/test", function(req, res) {
+   res.render("test"); 
+});
 
 app.get("/admin-add", function(req, res) {
    res.render("adminAdd"); 
@@ -49,7 +55,6 @@ app.post("/loginProcess", function(req, res) {
        res.send(false);
     }
 
-    
 });
 
 function insertClass(body) {
@@ -68,6 +73,38 @@ function insertClass(body) {
                          VALUES (?,?)`;
         
            let params = [body.subject, body.classNumber];
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function searchClasses(body) {
+    let conn = dbConnection();
+    
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT id, subject, classNumber
+                      FROM project_classes
+                      WHERE subject = ?`;
+                      
+          let params = [body.subject];
+          
+          if(body.classNumber) {
+              sql += `AND classNumber = ?`;
+              params.push(body.classNumber);
+          }
+    
         
            conn.query(sql, params, function (err, rows, fields) {
               if (err) throw err;
