@@ -25,10 +25,10 @@
     </head>
     <body>
         
-            <h1> <%= classInfo[0].subject + " " + classInfo[0].classNumber + ": " + classInfo[0].title %> </h1>
+            <h1> <%= classInfo.subject + " " + classInfo.classNumber + ": " + classInfo.title %> </h1>
             <button>Join Class</button> <br> <br>
             
-            <form method="POST" action="/newPost?classId=<%= classInfo[0].id %>">
+            <form method="POST" action="/newPost?classId=<%= classInfo.id %>">
                 Create new post: <br>
                 <textarea rows = "5" cols = "60" name = "text"></textarea><br>
                 <input type = "submit" value = "Post" name="text"/>

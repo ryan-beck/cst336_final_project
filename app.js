@@ -38,8 +38,13 @@ app.get("/regular", function(req, res){
 });
 
 
-app.get("/admin", function(req, res) {
-   res.render("admin"); 
+app.get("/admin", async function(req, res) {
+    if (req.session.authenticated) {
+        let classList =  await getClassList();
+        res.render("admin", {"classList":classList}); 
+    } else {
+        res.render("login");
+    }
 });
 
 
@@ -60,7 +65,7 @@ app.post("/admin-add", async function(req, res) {
 app.get("/admin-Remove", async function(req, res) {
    let rows = await removeClass(req.query);
    let subject = await getsubject(req.query);
-   let message = "not deleted yet";
+   let message = "Not deleted yet";
    console.log(rows);
    if (rows.affectedRows > 0) {
         message= "Class successfully deleted correctly!";
@@ -70,13 +75,48 @@ app.get("/admin-Remove", async function(req, res) {
    
 });
 
+app.get("/admin-update", async function(req, res){
+    if (req.session.authenticated) { 
+ 
+        let classInfo = await getClassInfo(req.query.id);    
+        //console.log(authorInfo);
+        res.render("adminUpdate", {"classInfo":classInfo}); 
+       
+   }  else { 
+    
+       res.render("login"); 
+   
+   }
+    
+});
+
+app.post("/admin-update", async function(req, res) {
+    if (req.session.authenticated) { 
+        let rows = await updateClass(req.body);
+        
+        let classInfo = req.body;
+        console.log(rows);
+        //res.send("First name: " + req.body.firstName); //When using the POST method, the form info is stored in req.body
+        let message = "Class was not updated!";
+        if (rows.affectedRows > 0) {
+          message= "Class successfully updated!";
+        }
+      res.render("adminUpdate", {"message":message, "classInfo":classInfo});
+    } else { 
+    
+       res.render("login"); 
+   
+   } 
+});
+
+
 app.get("/classPage", async function(req, res) {
-    let temp = [];
+
     //console.log(req);
     let id = parseInt(req.query.classId);
     //console.log("id: " + id);
     let comments = await getComments(id);
-    let class_ = await getClassAtId(id);
+    let class_ = await getClassInfo(id);
     //console.log(class_);
     if(Object.entries(comments).length === 0 ) {
         comments = "None";
@@ -116,29 +156,20 @@ app.post("/loginProcess", async function(req, res) {
             }
         }
     }
-    console.log(checkAdmin);
+    // console.log(checkAdmin);
 
     if (isUser && passCorrect) {
-       res.send({"loginSuccess":true, "isAdmin":checkAdmin});
+        req.session.authenticated = true;
+        res.send({"loginSuccess":true, "isAdmin":checkAdmin});
        
-       req.session.authenticated = true;
+       
     } else {
        res.send(false);
     }
 
 });
 
-// app.post("/loginProcess", function(req, res) {
-    
-//     if ( req.body.username == "admin" && sha256(req.body.password) == "2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b") {
-//       req.session.authenticated = true;
-//       res.send({"loginSuccess":true});
-//     } else {
-//       res.send(false);
-//     }
 
-    
-// });
 
 app.get("/logout", function(req, res) {
     req.session.destroy();
@@ -252,6 +283,37 @@ function removeClass(body) {
     });//promise 
 }
 
+function updateClass(body){
+   
+   let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `UPDATE project_classes
+                      SET subject = ?, 
+                          classNumber  = ?, 
+                                title = ?
+                     WHERE id = ?`;
+        
+           let params = [body.subject, body.classNumber, body.title, body.id];
+        
+           console.log(sql);
+           
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+
+
 function getsubject(){
     
     let conn = dbConnection();
@@ -312,12 +374,12 @@ function searchClasses(body) {
 function getComments(classId) {
     let conn = dbConnection();
     
-    
-    return new Promise(function(resolve, reject){
+        return new Promise(function(resolve, reject){
         conn.connect(function(err) {
            if (err) throw err;
            console.log("Connected!");
         
+
            let sql = `SELECT text, userName, threadId, identifier
                       FROM project_comments
                       WHERE classId = ?`;
@@ -326,6 +388,34 @@ function getComments(classId) {
     
         
            conn.query(sql, params, function (err, rows, fields) {
+
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+    
+
+function getClassList(){
+   
+   let conn = dbConnection();
+
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+
+           let sql = `SELECT * 
+                        FROM project_classes
+                        ORDER BY subject, classNumber`;
+        
+           conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
               //res.send(rows);
               conn.end();
@@ -336,27 +426,27 @@ function getComments(classId) {
     });//promise 
 }
 
-function getClassAtId(classId) {
-    let conn = dbConnection();
-    
+
+function getClassInfo(id){
+   
+   let conn = dbConnection();
     
     return new Promise(function(resolve, reject){
         conn.connect(function(err) {
            if (err) throw err;
            console.log("Connected!");
         
-           let sql = `SELECT subject, classNumber, title, id
+        
+           let sql = `SELECT *
                       FROM project_classes
                       WHERE id = ?`;
-                      
-          let params = [classId];
-    
         
-           conn.query(sql, params, function (err, rows, fields) {
+           conn.query(sql, [id], function (err, rows, fields) {
               if (err) throw err;
               //res.send(rows);
               conn.end();
-              resolve(rows);
+              resolve(rows[0]); //Query returns only ONE record
+
            });
         
         });//connect
