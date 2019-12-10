@@ -2,11 +2,76 @@
 <html>
     <head>
         <title> regular</title>
+        
+        <style>
+            
+            .comment {
+                margin-left: 50px;
+                outline: 1px dashed;
+                border-radius: 10px;
+                margin-right:5px;
+            }
+            
+            .post {
+                background-color:#c4c2c1;
+                border-radius: 10px;
+            }
+            
+            
+            
+            
+        </style>
+        
     </head>
     <body>
-        <h1> Class id is <%- classId %> </h1>
         
+            <h1> <%= classInfo[0].subject + " " + classInfo[0].classNumber + ": " + classInfo[0].title %> </h1>
+            <button>Join Class</button> <br> <br>
+            
+            <form method="POST" action="/newPost?classId=<%= classInfo[0].id %>">
+                Create new post: <br>
+                <textarea rows = "5" cols = "60" name = "text"></textarea><br>
+                <input type = "submit" value = "Post" name="text"/>
+            </form>
+            
+
         
+        <%if (comments=="None") { %>
+                <h3>No posts yet!</h3>
+            <% } else {%>
+                
+                <% for(let i = 0; i < comments.length; i++){ %> 
+                    
+                    <% if (!comments[i].threadId) { %>
+                      <div class="post">
+                          
+                         <h3> <%= comments[i].userName%> </h4>
+                        <p> <%= comments[i].text%> </p>
+                        
+                    
+                        <% for(let j = 0; j < comments.length; j++){ %>
+                        
+                        
+                        <%if (comments[j].threadId == comments[i].identifier){  %>
+                            <div class="comment">
+                                <h4> <%= comments[j].userName %> </h4>
+                                <p> <%= comments[j].text%> </p>
+                            </div>
+                            
+                        <% } %>
+                    <% } %>
+                        <br>
+                        <button>Reply</button>
+                      </div>
+                        
+                    
+                    <% } %>
+                    
+                    
+                    
+            
+                <% }  %>
+            <% } %>
     
     </body>
 </html>

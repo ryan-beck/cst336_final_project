@@ -70,12 +70,26 @@ app.get("/admin-Remove", async function(req, res) {
    
 });
 
-app.get("/classPage", function(req, res) {
+app.get("/classPage", async function(req, res) {
+    let temp = [];
     //console.log(req);
-    let id = req.query.classId;
-    console.log("id: " + id);
-    res.render("classPage", {"classId":id});
+    let id = parseInt(req.query.classId);
+    //console.log("id: " + id);
+    let comments = await getComments(id);
+    let class_ = await getClassAtId(id);
+    //console.log(class_);
+    if(Object.entries(comments).length === 0 ) {
+        comments = "None";
+    }
+    res.render("classPage", {"comments":comments, "classInfo":class_});
 
+});
+
+app.post("/newPost", async function(req, res) {
+    // here is what will be triggered when add class button is clicked
+    console.log(req.query.text);
+    //let rows = await newPost()
+    res.redirect("/classPage?classId="+req.query.classId);
 });
 
 app.post("/loginProcess", async function(req, res) {
@@ -130,6 +144,33 @@ app.get("/logout", function(req, res) {
     req.session.destroy();
     res.redirect("/");
 });
+
+function newPost(text, username, classId, threadId, identifier) {
+    let conn = dbConnection();
+    
+
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `INSERT INTO project_comments
+                        (text, username, classId, threadId, identifier)
+                         VALUES (?,?,?,?,?)`;
+        
+           let params = [text, username, classId, threadId, identifier];
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise   
+}
 
 function getUsers(){
     let conn = dbConnection();
@@ -255,6 +296,60 @@ function searchClasses(body) {
               sql += `AND classNumber = ?`;
               params.push(body.classNumber);
           }
+    
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function getComments(classId) {
+    let conn = dbConnection();
+    
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT text, userName, threadId, identifier
+                      FROM project_comments
+                      WHERE classId = ?`;
+                      
+          let params = [classId];
+    
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+
+function getClassAtId(classId) {
+    let conn = dbConnection();
+    
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT subject, classNumber, title, id
+                      FROM project_classes
+                      WHERE id = ?`;
+                      
+          let params = [classId];
     
         
            conn.query(sql, params, function (err, rows, fields) {
