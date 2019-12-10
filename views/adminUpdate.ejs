@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Update Class </title>
+    </head>
+    <body>
+
+        <h1> Updating Class </h1>
+        
+
+        <form method="POST">
+        
+            Subject: <input type="text" name="subject"
+                        value="<%= classInfo.subject %>"><br>    
+            Class Number: <input type="text" name="classNumber"
+                        value="<%= classInfo.classNumber %>"><br>    
+            Class Title: <input type="text" name="title"
+                        value="<%= classInfo.title %>"><br>
+                        
+            <input type="hidden" name="id" value="<%= classInfo.id %>"> 
+            
+            <br><br>
+            <button>Update Class</button><br>
+        
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </form>        
+
+    </body>
+</html>
