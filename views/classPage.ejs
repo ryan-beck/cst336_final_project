@@ -2,7 +2,7 @@
 <html>
     <head>
         <title> regular</title>
-        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <style>
             
             .comment {
@@ -18,9 +18,8 @@
             }
             
             
-            
-            
         </style>
+        
         
     </head>
     <body>
@@ -30,8 +29,8 @@
             
             <form method="POST" action="/newPost?classId=<%= classInfo.id %>">
                 Create new post: <br>
-                <textarea rows = "5" cols = "60" name = "text"></textarea><br>
-                <input type = "submit" value = "Post" name="text"/>
+                <textarea rows = "5" cols = "60" name="text"></textarea><br>
+                <input type = "submit" value = "Post"/>
             </form>
             
 
@@ -61,7 +60,11 @@
                         <% } %>
                     <% } %>
                         <br>
-                        <button>Reply</button>
+                        <form method="POST" action="/newReply?classId=<%= classInfo.id %>&commentId=<%=comments[i].identifier%>" class="replyForm">
+                            <textarea rows = "2" cols = "60" name="text"></textarea><br>
+                            <input type = "submit" value = "Reply"/>
+                        </form>
+                    
                       </div>
                         
                     

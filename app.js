@@ -127,9 +127,20 @@ app.get("/classPage", async function(req, res) {
 
 app.post("/newPost", async function(req, res) {
     // here is what will be triggered when add class button is clicked
-    console.log(req.query.text);
-    //let rows = await newPost()
-    res.redirect("/classPage?classId="+req.query.classId);
+    let text = req.body.text;
+    let id = req.query.classId;
+    let rows = await newPost(text, "default", id, null, hashCode(text));
+    res.redirect("/classPage?classId="+id);
+});
+
+app.post("/newReply", async function(req, res) {
+    // here is what will be triggered when add class button is clicked
+    let text = req.body.text;
+    let id = req.query.classId;
+    let commentId = req.query.commentId;
+    console.log(commentId);
+    let rows = await newPost(text, "default", id, commentId, null);
+    res.redirect("/classPage?classId="+id);
 });
 
 app.post("/loginProcess", async function(req, res) {
@@ -201,6 +212,13 @@ function newPost(text, username, classId, threadId, identifier) {
         
         });//connect
     });//promise   
+}
+
+// this function will be used to make unique identifiers for posts based on a hash for the text
+// found on https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
+function hashCode(str) {
+  return str.split('').reduce((prevHash, currVal) =>
+    (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
 }
 
 function getUsers(){
