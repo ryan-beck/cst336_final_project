@@ -109,12 +109,26 @@ app.post("/admin-update", async function(req, res) {
    } 
 });
 
-app.get("/classPage", function(req, res) {
-    //console.log(req);
-    let id = req.query.classId;
-    console.log("id: " + id);
-    res.render("classPage", {"classId":id});
+app.get("/classPage", async function(req, res) {
 
+    //console.log(req);
+    let id = parseInt(req.query.classId);
+    //console.log("id: " + id);
+    let comments = await getComments(id);
+    let class_ = await getClassInfo(id);
+    //console.log(class_);
+    if(Object.entries(comments).length === 0 ) {
+        comments = "None";
+    }
+    res.render("classPage", {"comments":comments, "classInfo":class_});
+
+});
+
+app.post("/newPost", async function(req, res) {
+    // here is what will be triggered when add class button is clicked
+    console.log(req.query.text);
+    //let rows = await newPost()
+    res.redirect("/classPage?classId="+req.query.classId);
 });
 
 app.post("/loginProcess", async function(req, res) {
@@ -160,6 +174,33 @@ app.get("/logout", function(req, res) {
     req.session.destroy();
     res.redirect("/");
 });
+
+function newPost(text, username, classId, threadId, identifier) {
+    let conn = dbConnection();
+    
+
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `INSERT INTO project_comments
+                        (text, username, classId, threadId, identifier)
+                         VALUES (?,?,?,?,?)`;
+        
+           let params = [text, username, classId, threadId, identifier];
+        
+           conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise   
+}
 
 function getUsers(){
     let conn = dbConnection();
@@ -329,15 +370,49 @@ function searchClasses(body) {
     });//promise 
 }
 
+<<<<<<< HEAD
+=======
+function getComments(classId) {
+    let conn = dbConnection();
+    
+        return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+
+           let sql = `SELECT text, userName, threadId, identifier
+                      FROM project_comments
+                      WHERE classId = ?`;
+                      
+          let params = [classId];
+    
+        
+           conn.query(sql, params, function (err, rows, fields) {
+
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise 
+}
+    
+
+>>>>>>> 88e3193b39b244301da4be08060ae031c0168c90
 function getClassList(){
    
    let conn = dbConnection();
+
     
     return new Promise(function(resolve, reject){
         conn.connect(function(err) {
            if (err) throw err;
            console.log("Connected!");
         
+
            let sql = `SELECT * 
                         FROM project_classes
                         ORDER BY subject, classNumber`;
@@ -353,6 +428,7 @@ function getClassList(){
     });//promise 
 }
 
+
 function getClassInfo(id){
    
    let conn = dbConnection();
@@ -361,6 +437,7 @@ function getClassInfo(id){
         conn.connect(function(err) {
            if (err) throw err;
            console.log("Connected!");
+        
         
            let sql = `SELECT *
                       FROM project_classes
@@ -371,6 +448,7 @@ function getClassInfo(id){
               //res.send(rows);
               conn.end();
               resolve(rows[0]); //Query returns only ONE record
+
            });
         
         });//connect
