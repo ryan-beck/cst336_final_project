@@ -75,6 +75,7 @@ app.get("/admin-Remove", async function(req, res) {
    
 });
 
+<<<<<<< HEAD
 app.get("/admin-update", async function(req, res){
     if (req.session.authenticated) { 
  
@@ -109,6 +110,8 @@ app.post("/admin-update", async function(req, res) {
    } 
 });
 
+=======
+>>>>>>> efe7a4abbf89f372e5bf5250b82e020b0b79959a
 app.get("/classPage", function(req, res) {
     //console.log(req);
     let id = req.query.classId;
@@ -329,6 +332,7 @@ function searchClasses(body) {
     });//promise 
 }
 
+<<<<<<< HEAD
 function getClassList(){
    
    let conn = dbConnection();
@@ -377,6 +381,8 @@ function getClassInfo(id){
     });//promise 
 }
 
+=======
+>>>>>>> efe7a4abbf89f372e5bf5250b82e020b0b79959a
 function dbConnection(){
 
    let conn = mysql.createConnection({
