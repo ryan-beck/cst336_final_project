@@ -129,7 +129,7 @@ app.post("/newPost", async function(req, res) {
     // here is what will be triggered when add class button is clicked
     let text = req.body.text;
     let id = req.query.classId;
-    let rows = await newPost(text, "default", id, null, hashCode(text));
+    let rows = await newPost(text, "user1", id, null, hashCode(text));
     res.redirect("/classPage?classId="+id);
 });
 
@@ -139,7 +139,7 @@ app.post("/newReply", async function(req, res) {
     let id = req.query.classId;
     let commentId = req.query.commentId;
     console.log(commentId);
-    let rows = await newPost(text, "default", id, commentId, null);
+    let rows = await newPost(text, "user1", id, commentId, null);
     res.redirect("/classPage?classId="+id);
 });
 
@@ -511,6 +511,10 @@ function searchClasses(body) {
           if(body.classNumber) {
               sql += `AND classNumber = ?`;
               params.push(body.classNumber);
+          }
+          if(body.className) {
+              sql += `AND title LIKE ?`;
+              params.push(body.className);
           }
     
         
