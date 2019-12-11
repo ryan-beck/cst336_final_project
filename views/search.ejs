@@ -13,6 +13,7 @@
         
         <h1> Classes </h1>
         <div id="content">
+
             <form action="/logout">
               <button> Logout </button>
             </form> 
@@ -32,8 +33,10 @@
                     <option>PSY</option>
                     <option>SL</option>
                 </select>
-                Class Number: <input type="text" name="classNumber"><br>
+                Class Number: <input type="text" name="classNumber">
+                Class Name: <input type="text" name="className"><br>
                 <button>Search for Class</button>
+
                 
                 <%= typeof(message) != "undefined"?message:"" %>
                 
