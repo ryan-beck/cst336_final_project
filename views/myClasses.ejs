@@ -19,6 +19,8 @@
                 <%if (added=="None") { %>
                     <h3>No classes found!</h3>
                 <% } else {%>
+                <br>
+                    <h4><%=added.length%> classes added.</h4>
                     <% added.forEach( function(class_){ %> 
                     <div>
                         <br>
