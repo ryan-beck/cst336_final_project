@@ -3,10 +3,15 @@
     <head>
         <title> Report Page</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/styles.css">
     </head>
     <body>
          <center> 
+             
             <h1>Report page</h1>
+            <form action="/admin">
+                 <button> Return to Admin Page </button>
+            </form>
             <p name = "subject2"> 
             <h3> Total amount of classes </h3>
             <% subject2.forEach(function(i){ %>
@@ -26,11 +31,7 @@
     
              </p>
              
-            <form action="/admin">
-                 <button>
-                     back to admin
-                 </button>
-            </form>
+            
         </center>
     </body>
 </html>

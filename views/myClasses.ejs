@@ -3,9 +3,16 @@
     <head>
         <title> My Classes </title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/styles.css">
     </head>
     <body>
         <h1>My Classes</h1>
+        <form action="/logout">
+          <button> Logout </button>
+        </form> 
+        <form action="/search">
+          <button> Return to Search </button>
+        </form> 
         <%if (typeof(added) != "undefined") { %>
         
             <%if (added=="None") { %>

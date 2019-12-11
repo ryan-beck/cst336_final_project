@@ -10,6 +10,7 @@
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/styles.css">
         <script>
             $(document).ready(function(){
              
@@ -43,31 +44,39 @@
     <center>
         <body>
             <h1>Welcome Admin</h1>
-            <div>
-                <form action="/logout">
-                  <button> Logout </button>
-                </form> 
-                <br>
+            <!--<div id="adminNav">-->
+            <!--    <form action="/logout">-->
+            <!--      <button class="navButton"> Logout </button>-->
+            <!--    </form> -->
+            <!--    <br>-->
                 
-                <form action="/admin-add">
-                    <button id="add">Add Class</button>
-                </form>
-                <br>
-                <form action="/admin-remove">
-                    <button id="remove">Remove Class</button>
-                </form>
-                <br>
-                <form action="/reports">
-                    <button id="remove">Reports page</button>
-                </form>
-            </div>
+            <!--    <form action="/admin-add">-->
+            <!--        <button class="navButton" id="add">Add Class</button>-->
+            <!--    </form>-->
+            <!--    <br>-->
+            <!--    <form action="/admin-remove">-->
+            <!--        <button class="navButton" id="remove">Remove Class</button>-->
+            <!--    </form>-->
+            <!--    <br>-->
+            <!--    <form action="/reports">-->
+            <!--        <button class="navButton" id="reports">Reports page</button>-->
+            <!--    </form>-->
+            <!--</div>-->
+            
+            <nav>
+                <a href="/logout"> Logout </a>
+                <a href="/admin-add"> Add Class </a>
+                <a href="/admin-remove"> Remove Class </a>
+                <a href="/reports"> Admin Reports </a>
+    
+            </nav>
             
             
             <h3>Classes</h3>
             
             <% classList.forEach(function(i){  %>
             
-                [<a href="/admin-update?id=<%= i.id %>">UPDATE</a>] 
+                [<a class="updateLink" href="/admin-update?id=<%= i.id %>">UPDATE</a>] 
     
                 <%= i.subject %> <%= i.classNumber %> <%= i.title %><br>
         

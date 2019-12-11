@@ -7,6 +7,7 @@
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/styles.css">
           <script>
         $(document).ready(function(){
          
@@ -42,7 +43,7 @@
 
         <h1> Add New Class </h1>
         
-
+        
         <form method="POST">
         
             Subject: <select name="subject">
@@ -66,7 +67,11 @@
             <%= typeof(message) != "undefined"?message:"" %>
             
         </form>    
-        <br><br>
+        <br>
+        <form action="/admin">
+             <button> Return to Admin Page </button>
+        </form>
+        <br>
         <div id="images"></div>
         
     </body>

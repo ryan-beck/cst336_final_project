@@ -1,0 +1,42 @@
+body {
+    background-color: #8F864F;
+    color: white;
+    /*#8F864F golden sand*/
+    /*#007751 valley green */
+    /* #001E54 bay blue */
+}
+
+h1 {
+    background-color: #007751;
+    padding: 20px;
+}
+
+.updateLink {
+    color: #001E54;
+}
+
+/*#adminNav {*/
+/*    display: flex;*/
+/*    padding-left: 25%;*/
+/*    padding-right: 25%;*/
+    
+/*}*/
+
+/*.navButton {*/
+/*    padding-left: 20px;*/
+/*    padding-right: 20px;*/
+/*}*/
+
+nav a { 
+    padding: 15px;
+    padding-bottom: 4px;
+    font-size: 1.8em;
+    text-decoration: none;
+    color: white;
+}
+
+nav a:hover { 
+    border-bottom: 2px solid #001E54;
+    font-size: 2em;
+    transition: .9s; 
+}
