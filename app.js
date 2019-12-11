@@ -56,6 +56,12 @@ app.post("/admin-add", async function(req, res) {
     }
     res.render("adminAdd", {"message":message});
 });
+app.get("/reports", async function(req, res) {
+   let subject2 = await getsubject2(req.query);
+   let subject3 = await getsubject3(req.query);
+   res.render("reports", {"subject2":subject2,"subject3":subject3}); 
+});
+
 
 app.get("/admin-Remove", async function(req, res) {
    let rows = await removeClass(req.query);
@@ -399,6 +405,55 @@ function getsubject(){
     });//promise
     
 }//getCategories
+function getsubject2(){
+    
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT subject, classNumber
+                      FROM project_classes
+                      ORDER BY subject`;
+        
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+    
+}//getCategories
+function getsubject3(){
+    
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+        
+           let sql = `SELECT text, username
+                      FROM project_comments
+                      ORDER BY text`;
+        
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+    
+}//getCategories
+
 
 function searchClasses(body) {
     let conn = dbConnection();

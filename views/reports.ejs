@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Report Page</title>
+    </head>
+    <body>
+        <h1>Report page</h1>
+     <p name = "subject2"> 
+   
+     <% subject2.forEach(function(i){ %>
+                
+                    <p> <%=i.subject%>  <%=i.classNumber%>  </p>
+                
+                <% }); %>
+     </p>
+     
+     <p name = "subject3"> 
+     
+      <% subject3.forEach(function(i){ %>
+                
+                   <center></center> <p> <%=i.text%>  <%=i.username%>  </p></center>
+                
+                <% }); %>
+     
+     
+     </p>
+     
+    <form action="/admin">
+         <button>
+             back to admin
+         </button>
+     </form>
+    </body>
+</html>
