@@ -452,7 +452,7 @@ function getsubject2(){
            if (err) throw err;
            console.log("Connected!");
         
-           let sql = `SELECT subject, classNumber
+           let sql = `SELECT subject, classNumber, title
                       FROM project_classes
                       ORDER BY subject`;
         
