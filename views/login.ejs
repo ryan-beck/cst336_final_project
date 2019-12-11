@@ -1,95 +1,96 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Admin Login Screen </title>
+        <title> Login Screen </title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    </head>
-<meta charset = "utf-8">
-<meta name="viewport" content="width-device-width">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
-
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script>
-$(document).ready(function(){
- 
- $("#keyword").val("education");;
- 
- $("#searchBtn1").on("click", function(){search();});
- search();
- function search(){
-  
- $.ajax({
-     method: "GET",
-     url: "https://pixabay.com/api/",
-     dataType: "json",
-     data: {"key": "5589438-47a0bca778bf23fc2e8c5bf3e",
-     "q": $("#keyword").val(),},
-     success: function(result, status)
-     {
-        result.hits =  _.shuffle(result.hits);// shuffles all the elements in array
-         
-        $("#images").html(`<img src='${result.hits[0].webformatURL}'>
-        ${result.hits[0].webformatURL}`);
-         
-       
+    
+        <meta charset = "utf-8">
+        <meta name="viewport" content="width-device-width">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
         
-     }
-     
- });//a
-}//search()
-});//d
-</script>
-<center>
-    <body>
-
-        
-        Username: <input type="text" name="username" id="username" ><br>
-
-        Password: <input type="password" id="password" name="password">
-        
-        <button id="loginBtn">Login!</button>
-        
-        <br> <br>
-                  <span id="keyword" type= "text"> 
-
-
+        <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <script>
-            $("#loginBtn").on("click", function(){
+            $(document).ready(function(){
+             
+             $("#keyword").val("education");;
+             
+             $("#searchBtn1").on("click", function(){search();});
+             search();
+            function search(){
+          
+             $.ajax({
+                 method: "GET",
+                 url: "https://pixabay.com/api/",
+                 dataType: "json",
+                 data: {"key": "5589438-47a0bca778bf23fc2e8c5bf3e",
+                 "q": $("#keyword").val(),},
+                 success: function(result, status)
+                 {
+                    result.hits =  _.shuffle(result.hits);// shuffles all the elements in array
+                     
+                    $("#images").html(`<img src='${result.hits[0].webformatURL}'>`);
+            
+                   
                     
-                //alert("works!");
-                
-                $.ajax({
-                
-                      method: "post",
-                         url: "/loginProcess",
-                    dataType: "json",
-                        data: { "username":$("#username").val(),
-                                "password":$("#password").val() },
-                     success: function(result,status) {
-                        //alert(result);
-                        if (!result.loginSuccess) {
-                            
-                            alert("Wrong credentials!");
-                            
-                        } else {
-                            if (result.isAdmin){
-                                location.href = "/admin"; //redirects to admin route
-                            } else {
-                                location.href = "/search"; //will be route for regular users, not admin page
-                            }
-                            
-                            
-                        }
-                    }
-                    
-                });//ajax
-                
-            });//click
-        
+                 }
+                 
+             });//a
+            }//search()
+            });//d
         </script>
-        <div id="images"></div>
-
-    </body>
+    </head>
+    <center>
+        <body>
+    
+            <h1>Welcome</h1>        
+            Username: <input type="text" name="username" id="username" ><br>
+    
+            Password: <input type="password" id="password" name="password"><br>
+            
+            <button id="loginBtn">Login!</button>
+            
+            <br> <br>
+                      <span id="keyword" type= "text"> 
+    
+    
+            <script>
+                $("#loginBtn").on("click", function(){
+                        
+                    //alert("works!");
+                    
+                    $.ajax({
+                    
+                          method: "post",
+                             url: "/loginProcess",
+                        dataType: "json",
+                            data: { "username":$("#username").val(),
+                                    "password":$("#password").val() },
+                         success: function(result,status) {
+                            //alert(result);
+                            if (!result.loginSuccess) {
+                                
+                                alert("Wrong credentials!");
+                                
+                            } else {
+                                if (result.isAdmin){
+                                    location.href = "/admin"; //redirects to admin route
+                                } else {
+                                    location.href = "/search"; //will be route for regular users, not admin page
+                                }
+                                
+                                
+                            }
+                        }
+                        
+                    });//ajax
+                    
+                });//click
+            
+            </script>
+            <div id="images"></div>
+    
+        </body>
     </center>
 </html>

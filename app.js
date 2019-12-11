@@ -151,7 +151,7 @@ app.get("/addClass", async function(req, res){
         message = "Class has been added to your list.";
     }
     
-    console.log(rows);
+    // console.log(rows);
     let id = parseInt(req.query.classId);
     //console.log("id: " + id);
     let comments = await getComments(id);
@@ -161,6 +161,19 @@ app.get("/addClass", async function(req, res){
         comments = "None";
     }
     res.render("classPage", {"comments":comments, "classInfo":class_, "message":message});
+
+  
+});
+
+//page for classes that have been added by user
+app.get("/myClasses", async function(req, res){
+    let added = await getAdded(); //get list of classes that have been added
+    if(Object.entries(added).length === 0 ) {
+        added = "None";
+    }
+    // console.log(rows);
+    
+    res.render("myClasses", {"added":added});
 
   
 });
@@ -208,6 +221,31 @@ app.get("/logout", function(req, res) {
     req.session.destroy();
     res.redirect("/");
 });
+
+function getAdded(){
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!");
+        
+            let sql = `SELECT * 
+                        FROM project_classes 
+                      WHERE isAdded = 1
+                      `;
+            // console.log(sql); 
+            conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+            //   res.send(rows);
+              conn.end();
+            //   console.log(rows);
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+}
 
 function addClass(classId){
     let conn = dbConnection();

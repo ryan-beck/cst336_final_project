@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html>
-<meta charset = "utf-8">
-<meta name="viewport" content="width-device-width">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
-
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<head>
+    
+    <head>
         <title> Admin Page</title>
+        
+        <meta charset = "utf-8">
+        <meta name="viewport" content="width-device-width">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script>
+            $(document).ready(function(){
+             
+                 $("#keyword").val("EDUCATION");;
+                 
+                 $("#searchBtn1").on("click", function(){search();});
+                 search();
+                 function search(){
+                  
+                     $.ajax({
+                         method: "GET",
+                         url: "https://pixabay.com/api/",
+                         dataType: "json",
+                         data: {"key": "5589438-47a0bca778bf23fc2e8c5bf3e",
+                         "q": $("#keyword").val(),},
+                         success: function(result, status)
+                         {
+                            result.hits =  _.shuffle(result.hits);// shuffles all the elements in array
+                             
+                            $("#images").html(`<img src='${result.hits[0].webformatURL}'>`);
+                            
+                           
+                            
+                         }
+                         
+                     });//ajax
+                }//search()
+            });//documentReady
+        </script>
     </head>
+    <center>
+        <body>
+            <h1>Welcome Admin</h1>
+            <div>
+                <form action="/logout">
+                  <button> Logout </button>
+                </form> 
+                <br>
+                
+                <form action="/admin-add">
+                    <button id="add">Add Class</button>
+                </form>
+                <br>
+                <form action="/admin-remove">
+                    <button id="remove">Remove Class</button>
+                </form>
+                <br>
+                <form action="/reports">
+                    <button id="remove">Reports page</button>
+                </form>
+            </div>
+            
+            
+            <h3>Classes</h3>
+            
+            <% classList.forEach(function(i){  %>
+            
+                [<a href="/admin-update?id=<%= i.id %>">UPDATE</a>] 
     
-    <script>
-$(document).ready(function(){
- 
- $("#keyword").val("EDUCATION");;
- 
- $("#searchBtn1").on("click", function(){search();});
- search();
- function search(){
-  
- $.ajax({
-     method: "GET",
-     url: "https://pixabay.com/api/",
-     dataType: "json",
-     data: {"key": "5589438-47a0bca778bf23fc2e8c5bf3e",
-     "q": $("#keyword").val(),},
-     success: function(result, status)
-     {
-        result.hits =  _.shuffle(result.hits);// shuffles all the elements in array
-         
-        $("#images").html(`<img src='${result.hits[0].webformatURL}'>
-        ${result.hits[0].webformatURL}`);
+                <%= i.subject %> <%= i.classNumber %> <%= i.title %><br>
         
-       
         
-     }
-     
- });//a
-}//search()
-});//d
-</script>
-<center>
-    <body>
-        <h1>Welcome Admin</h1>
-        <form action="/logout">
-          <button> Logout </button>
-        </form> 
-        <br>
-        
-        <form action="/admin-add">
-            <button id="add">Add Class</button>
-        </form>
-        <br>
-        <form action="/admin-remove">
-            <button id="remove">Remove Class</button>
-        </form>
-        <br>
-        <form action="/reports">
-            <button id="remove">Reports page</button>
-        </form>
-        
-        <h3>Classes</h3>
-        
-        <% classList.forEach(function(i){  %>
-        
-            [<a href="/admin-update?id=<%= i.id %>">UPDATE</a>] 
-
-            <%= i.subject %> <%= i.classNumber %> <%= i.title %><br>
+            <% }) %>
+                      <span id="keyword" type= "text"> 
     
-    
-        <% }) %>
-                  <span id="keyword" type= "text"> 
-
-    <div id="images"></div>
-    
-    </center>
+        <div id="images"></div>
+        
+        </center>
     </body>
     
 </html>

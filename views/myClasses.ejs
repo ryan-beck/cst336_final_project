@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> My Classes </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    </head>
+    <body>
+        <h1>My Classes</h1>
+        <%if (typeof(added) != "undefined") { %>
+        
+            <%if (added=="None") { %>
+                <h3>No classes found!</h3>
+            <% } else {%>
+                <% added.forEach( function(class_){ %> 
+                <div>
+                    <br>
+                    <a href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
+                </div>
+                <br><br>
+                <% })  %>
+            <% } %>
+        <% }%>
+    </body>
+</html>

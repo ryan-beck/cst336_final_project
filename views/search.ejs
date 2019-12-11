@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> </title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
+        <title> Search </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
         
-
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     
     
     </head>
@@ -36,6 +36,9 @@
             <%= typeof(message) != "undefined"?message:"" %>
             
         </form>  
+        <form action="/myClasses">
+            <button>My Classes</button>
+        </form>
         
         
         <%if (typeof(classes) != "undefined") { %>
