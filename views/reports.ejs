@@ -4,21 +4,22 @@
         <title> Report Page</title>
     </head>
     <body>
+         <center> 
         <h1>Report page</h1>
      <p name = "subject2"> 
-   
+   <h3> Total amount of classes </h3>
      <% subject2.forEach(function(i){ %>
                 
-                    <p> <%=i.subject%>  <%=i.classNumber%>  </p>
+                  <p> <%=i.subject%>  <%=i.classNumber%>  </p>
                 
                 <% }); %>
      </p>
      
      <p name = "subject3"> 
-     
+     <h3> Total amount of comments and users</h3>
       <% subject3.forEach(function(i){ %>
                 
-                   <center></center> <p> <%=i.text%>  <%=i.username%>  </p></center>
+                    <p> <%=i.text%> <h3> <%=i.username%> </h3> </p>
                 
                 <% }); %>
      
@@ -30,5 +31,6 @@
              back to admin
          </button>
      </form>
+     </center>
     </body>
 </html>

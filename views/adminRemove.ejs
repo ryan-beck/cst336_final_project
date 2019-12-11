@@ -1,12 +1,50 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> </title>
-    </head>
+<head>
+<meta charset = "utf-8">
+<meta name="viewport" content="width-device-width">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    
+    <script>
+$(document).ready(function(){
+ 
+ $("#keyword").val("EDUCATION");;
+ 
+ $("#searchBtn1").on("click", function(){search();});
+ search();
+ function search(){
+  
+ $.ajax({
+     method: "GET",
+     url: "https://pixabay.com/api/",
+     dataType: "json",
+     data: {"key": "5589438-47a0bca778bf23fc2e8c5bf3e",
+     "q": $("#keyword").val(),},
+     success: function(result, status)
+     {
+        result.hits =  _.shuffle(result.hits);// shuffles all the elements in array
+         
+        $("#images").html(`<img src='${result.hits[0].webformatURL}'>
+        ${result.hits[0].webformatURL}`);
+        
+       
+        
+     }
+     
+ });//a
+}//search()
+});//d
+</script>
+
+
     <body>
 
         <h1> Remove Class </h1>
-        
+          <span id="keyword" type= "text"> 
 
         <form method="GET">
         
@@ -40,7 +78,7 @@
                 <% }); %>
                 
             </select>
-
+<div id="images"></div>
         
     </body>
 </html>

@@ -1,15 +1,53 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<meta charset = "utf-8">
+<meta name="viewport" content="width-device-width">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<head>
         <title> Admin Page</title>
     </head>
+    
+    <script>
+$(document).ready(function(){
+ 
+ $("#keyword").val("EDUCATION");;
+ 
+ $("#searchBtn1").on("click", function(){search();});
+ search();
+ function search(){
+  
+ $.ajax({
+     method: "GET",
+     url: "https://pixabay.com/api/",
+     dataType: "json",
+     data: {"key": "5589438-47a0bca778bf23fc2e8c5bf3e",
+     "q": $("#keyword").val(),},
+     success: function(result, status)
+     {
+        result.hits =  _.shuffle(result.hits);// shuffles all the elements in array
+         
+        $("#images").html(`<img src='${result.hits[0].webformatURL}'>
+        ${result.hits[0].webformatURL}`);
+        
+       
+        
+     }
+     
+ });//a
+}//search()
+});//d
+</script>
+<center>
     <body>
         <h1>Welcome Admin</h1>
         <form action="/logout">
           <button> Logout </button>
         </form> 
         <br>
-        <br>
+        
         <form action="/admin-add">
             <button id="add">Add Class</button>
         </form>
@@ -18,6 +56,9 @@
             <button id="remove">Remove Class</button>
         </form>
         <br>
+        <form action="/reports">
+            <button id="remove">Reports page</button>
+        </form>
         
         <h3>Classes</h3>
         
@@ -29,7 +70,11 @@
     
     
         <% }) %>
-        
+                  <span id="keyword" type= "text"> 
+
+    <div id="images"></div>
     
+    </center>
     </body>
+    
 </html>
