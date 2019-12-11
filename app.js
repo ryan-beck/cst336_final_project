@@ -59,7 +59,12 @@ app.post("/admin-add", async function(req, res) {
 app.get("/reports", async function(req, res) {
    let subject2 = await getsubject2(req.query);
    let subject3 = await getsubject3(req.query);
-   res.render("reports", {"subject2":subject2,"subject3":subject3}); 
+   let subject4 = await getsubject4(req.query);
+   let subject5 = await getsubject5(req.query);
+   //console.log(subject4[0].values()[0]);
+   console.log(Object.values(subject4[0]));
+   res.render("reports", {"subject2":subject2,"subject3":subject3, "subject4":subject4, "subject5":subject5}); 
+   
 });
 
 
@@ -129,7 +134,7 @@ app.post("/newPost", async function(req, res) {
     // here is what will be triggered when add class button is clicked
     let text = req.body.text;
     let id = req.query.classId;
-    let rows = await newPost(text, "user1", id, null, hashCode(text));
+    let rows = await newPost(text, "default", id, null, hashCode(text));
     res.redirect("/classPage?classId="+id);
 });
 
@@ -139,7 +144,7 @@ app.post("/newReply", async function(req, res) {
     let id = req.query.classId;
     let commentId = req.query.commentId;
     console.log(commentId);
-    let rows = await newPost(text, "user1", id, commentId, null);
+    let rows = await newPost(text, "default", id, commentId, null);
     res.redirect("/classPage?classId="+id);
 });
 
@@ -491,6 +496,54 @@ function getsubject3(){
     });//promise
     
 }//getCategories
+function getsubject4(){
+    
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+
+ let sql = `SELECT COUNT(subject)
+           FROM project_classes
+           ORDER BY subject;`;
+        
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+    
+}//getCategories
+function getsubject5(){
+    
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+           if (err) throw err;
+           console.log("Connected!");
+
+ let sql = `SELECT COUNT(text)
+           FROM project_comments
+           ORDER BY text;`;
+        
+           conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+    
+}//getCategories
 
 
 function searchClasses(body) {
@@ -511,10 +564,6 @@ function searchClasses(body) {
           if(body.classNumber) {
               sql += `AND classNumber = ?`;
               params.push(body.classNumber);
-          }
-          if(body.className) {
-              sql += `AND title LIKE ?`;
-              params.push(body.className);
           }
     
         
