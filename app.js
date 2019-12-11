@@ -504,7 +504,8 @@ function searchClasses(body) {
         
            let sql = `SELECT id, subject, classNumber
                       FROM project_classes
-                      WHERE subject = ?`;
+                      WHERE subject = ?
+                      ORDER BY subject, classNumber`;
                       
           let params = [body.subject];
           

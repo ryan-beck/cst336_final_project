@@ -43,36 +43,38 @@
 
         <h1> Add New Class </h1>
         
+        <div id="content">
+            <form method="POST">
         
-        <form method="POST">
-        
-            Subject: <select name="subject">
-                <option>BIO</option>
-                <option>BUS</option>
-                <option>CST</option>
-                <option>ENVS</option>
-                <option>FYS</option>
-                <option>HCOM</option>
-                <option>KIN</option>
-                <option>MATH</option>
-                <option>PSY</option>
-                <option>SL</option>
-            </select>
-            Class Number: <input type="text" name="classNumber">
-            Title: <input type="text" name="title">
+                Subject: <select name="subject">
+                    <option>BIO</option>
+                    <option>BUS</option>
+                    <option>CST</option>
+                    <option>ENVS</option>
+                    <option>FYS</option>
+                    <option>HCOM</option>
+                    <option>KIN</option>
+                    <option>MATH</option>
+                    <option>PSY</option>
+                    <option>SL</option>
+                </select>
+                Class Number: <input type="text" name="classNumber">
+                Title: <input type="text" name="title">
+                <br>
+                
+                <button>Add Class</button>
+                
+                <%= typeof(message) != "undefined"?message:"" %>
+                
+            </form>    
             <br>
-            
-            <button>Add Class</button>
-            
-            <%= typeof(message) != "undefined"?message:"" %>
-            
-        </form>    
-        <br>
-        <form action="/admin">
-             <button> Return to Admin Page </button>
-        </form>
-        <br>
-        <div id="images"></div>
+            <form action="/admin">
+                 <button> Return to Admin Page </button>
+            </form>
+            <br>
+            <div id="images"></div>
+        
+        </div>
         
     </body>
 </html>

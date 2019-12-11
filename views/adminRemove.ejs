@@ -45,33 +45,36 @@
     <body>
 
         <h1> Remove Class </h1>
-          <span id="keyword" type= "text"> 
-        <form action="/admin">
-             <button> Return to Admin Page </button>
-        </form>
-        <form method="GET">
-        
-            Subject: <select name="subject">
-                <option>Select one</option>
-                <option>BIO</option>
-                <option>BUS</option>
-                <option>CST</option>
-                <option>ENVS</option>
-                <option>FYS</option>
-                <option>HCOM</option>
-                <option>KIN</option>
-                <option>MATH</option>
-                <option>PSY</option>
-                <option>SL</option>
-            </select>
-            Class Number: <input type="text" name="classNumber"><br>
-            <button>remove Class</button>
+        <div id="content">
+            <span id="keyword" type= "text"> 
+            <form action="/admin">
+                 <button> Return to Admin Page </button>
+            </form>
+            <form method="GET">
             
-            <%= typeof(message) != "undefined"?message:"" %>
-            
-        </form>        
-        <br><br>
-        <div id="images"></div>
+                Subject: <select name="subject">
+                    <option>Select one</option>
+                    <option>BIO</option>
+                    <option>BUS</option>
+                    <option>CST</option>
+                    <option>ENVS</option>
+                    <option>FYS</option>
+                    <option>HCOM</option>
+                    <option>KIN</option>
+                    <option>MATH</option>
+                    <option>PSY</option>
+                    <option>SL</option>
+                </select>
+                Class Number: <input type="text" name="classNumber"><br>
+                <button>remove Class</button>
+                
+                <%= typeof(message) != "undefined"?message:"" %>
+                
+            </form>        
+            <br><br>
+            <div id="images"></div>
+        </div>
+          
         
     </body>
 </html>

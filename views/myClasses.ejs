@@ -22,7 +22,7 @@
                     <% added.forEach( function(class_){ %> 
                     <div>
                         <br>
-                        <a href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
+                        <a class="classLink" href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
                     </div>
                     <br><br>
                     <% })  %>
