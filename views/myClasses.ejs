@@ -7,25 +7,28 @@
     </head>
     <body>
         <h1>My Classes</h1>
-        <form action="/logout">
-          <button> Logout </button>
-        </form> 
-        <form action="/search">
-          <button> Return to Search </button>
-        </form> 
-        <%if (typeof(added) != "undefined") { %>
+        <div id="content">
+            <form action="/logout">
+              <button> Logout </button>
+            </form> 
+            <form action="/search">
+              <button> Return to Search </button>
+            </form> 
+            <%if (typeof(added) != "undefined") { %>
+            
+                <%if (added=="None") { %>
+                    <h3>No classes found!</h3>
+                <% } else {%>
+                    <% added.forEach( function(class_){ %> 
+                    <div>
+                        <br>
+                        <a href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
+                    </div>
+                    <br><br>
+                    <% })  %>
+                <% } %>
+            <% }%>
+        </div>
         
-            <%if (added=="None") { %>
-                <h3>No classes found!</h3>
-            <% } else {%>
-                <% added.forEach( function(class_){ %> 
-                <div>
-                    <br>
-                    <a href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
-                </div>
-                <br><br>
-                <% })  %>
-            <% } %>
-        <% }%>
     </body>
 </html>

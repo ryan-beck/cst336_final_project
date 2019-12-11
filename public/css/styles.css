@@ -11,8 +11,14 @@ h1 {
     padding: 20px;
 }
 
-.updateLink {
+.updateLink, .classLink {
     color: #001E54;
+    font-size: 25px;
+}
+
+#content {
+    /*padding-left: 20px;*/
+    margin-left: 20px;
 }
 
 /*#adminNav {*/

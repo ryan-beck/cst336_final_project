@@ -12,51 +12,53 @@
     <body>
         
         <h1> Classes </h1>
-        
-        <form action="/logout">
-          <button> Logout </button>
-        </form> 
-        <br>
-        <form method="POST">
-        
-            Subject: <select name="subject">
-                <option>Select Subject</option>
-                <option>BIO</option>
-                <option>BUS</option>
-                <option>CST</option>
-                <option>ENVS</option>
-                <option>FYS</option>
-                <option>HCOM</option>
-                <option>KIN</option>
-                <option>MATH</option>
-                <option>PSY</option>
-                <option>SL</option>
-            </select>
-            Class Number: <input type="text" name="classNumber"><br>
-            <button>Search for Class</button>
+        <div id="content">
+            <form action="/logout">
+              <button> Logout </button>
+            </form> 
+            <br>
+            <form method="POST">
             
-            <%= typeof(message) != "undefined"?message:"" %>
+                Subject: <select name="subject">
+                    <option>Select Subject</option>
+                    <option>BIO</option>
+                    <option>BUS</option>
+                    <option>CST</option>
+                    <option>ENVS</option>
+                    <option>FYS</option>
+                    <option>HCOM</option>
+                    <option>KIN</option>
+                    <option>MATH</option>
+                    <option>PSY</option>
+                    <option>SL</option>
+                </select>
+                Class Number: <input type="text" name="classNumber"><br>
+                <button>Search for Class</button>
+                
+                <%= typeof(message) != "undefined"?message:"" %>
+                
+            </form>  
+            <form action="/myClasses">
+                <button>My Classes</button>
+            </form>
             
-        </form>  
-        <form action="/myClasses">
-            <button>My Classes</button>
-        </form>
+            
+            <%if (typeof(classes) != "undefined") { %>
+            
+                <%if (classes=="None") { %>
+                    <h3>No classes found!</h3>
+                <% } else {%>
+                    <% classes.forEach( function(class_){ %> 
+                    <div>
+                        <br>
+                        <a class="classLink" href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
+                    </div>
+                    <br><br>
+                    <% })  %>
+                <% } %>
+            <% }%>
+        </div>
         
-        
-        <%if (typeof(classes) != "undefined") { %>
-        
-            <%if (classes=="None") { %>
-                <h3>No classes found!</h3>
-            <% } else {%>
-                <% classes.forEach( function(class_){ %> 
-                <div>
-                    <br>
-                    <a href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
-                </div>
-                <br><br>
-                <% })  %>
-            <% } %>
-        <% }%>
 
         
     </body>
