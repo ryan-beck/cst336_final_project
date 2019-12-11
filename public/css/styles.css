@@ -11,7 +11,7 @@ h1 {
     padding: 20px;
 }
 
-.updateLink, .classLink {
+.updateLink, .classLink, .addClass{
     color: #001E54;
     font-size: 25px;
 }

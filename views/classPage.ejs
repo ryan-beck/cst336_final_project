@@ -16,8 +16,9 @@
             }
             
             .post {
-                background-color:#c4c2c1 !important;
+                background-color:#007751 !important;
                 border-radius: 10px !important;
+                color:white!important;
             }
             
             
@@ -27,8 +28,8 @@
     </head>
     <body>
         
-            <h1> <%= classInfo.subject + " " + classInfo.classNumber + ": " + classInfo.title %> </h1>
-
+        <h1> <%= classInfo.subject + " " + classInfo.classNumber + ": " + classInfo.title %> </h1>
+        <div id="content">
             <form action="/logout">
               <button> Logout </button>
             </form> 
@@ -44,7 +45,9 @@
                 <textarea rows = "5" cols = "60" name="text"></textarea><br>
                 <input type = "submit" value = "Post"/>
             </form>
-            
+         
+        </div>
+           
 
         
         <%if (comments=="None") { %>
@@ -63,20 +66,20 @@
                         <% for(let j = 0; j < comments.length; j++){ %>
                         
                         
-                        <%if (comments[j].threadId == comments[i].identifier){  %>
-                            <div class="comment">
-                                <h4> <%= comments[j].userName %> </h4>
-                                <p> <%= comments[j].text%> </p>
-                            </div>
-                            
+                            <%if (comments[j].threadId == comments[i].identifier){  %>
+                                <div class="comment">
+                                    <h4> <%= comments[j].userName %> </h4>
+                                    <p> <%= comments[j].text%> </p>
+                                </div>
+                                
+                            <% } %>
                         <% } %>
-                    <% } %>
                         <br>
                         <form method="POST" action="/newReply?classId=<%= classInfo.id %>&commentId=<%=comments[i].identifier%>" class="replyForm">
                             <textarea rows = "2" cols = "60" name="text"></textarea><br>
                             <input type = "submit" value = "Reply"/>
                         </form>
-                    
+                    <br>
                       </div>
                         
                     
@@ -84,7 +87,7 @@
                     
                     
                     
-            
+                    <br>
                 <% }  %>
             <% } %>
     

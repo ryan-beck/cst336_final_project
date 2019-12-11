@@ -8,27 +8,30 @@
     <body>
 
         <h1> Updating Class </h1>
-        
-        <form action="/admin">
-             <button> Return to Admin Page </button>
-        </form>
-        <form method="POST">
-        
-            Subject: <input type="text" name="subject"
-                        value="<%= classInfo.subject %>"><br>    
-            Class Number: <input type="text" name="classNumber"
-                        value="<%= classInfo.classNumber %>"><br>    
-            Class Title: <input type="text" name="title"
-                        value="<%= classInfo.title %>"><br>
-                        
-            <input type="hidden" name="id" value="<%= classInfo.id %>"> 
+        <div id="content">
+            <form action="/admin">
+                 <button> Return to Admin Page </button>
+            </form>
+            <br>
+            <form method="POST">
             
-            <br><br>
-            <button>Update Class</button><br>
-        
-            <%= typeof(message) != "undefined"?message:"" %>
+                Subject: <input type="text" name="subject"
+                            value="<%= classInfo.subject %>"><br>    
+                Class Number: <input type="text" name="classNumber"
+                            value="<%= classInfo.classNumber %>"><br>    
+                Class Title: <input type="text" name="title"
+                            value="<%= classInfo.title %>"><br>
+                            
+                <input type="hidden" name="id" value="<%= classInfo.id %>"> 
+                
+                <br><br>
+                <button>Update Class</button><br>
             
-        </form>        
+                <%= typeof(message) != "undefined"?message:"" %>
+                
+            </form>       
+        </div>
+         
 
     </body>
 </html>
