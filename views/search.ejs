@@ -9,13 +9,16 @@
     
     </head>
     <body>
-
+        <form action="/logout">
+          <button> Logout </button>
+        </form> 
         <h1> Classes </h1>
         
 
         <form method="POST">
         
             Subject: <select name="subject">
+                <option>Select Subject</option>
                 <option>BIO</option>
                 <option>BUS</option>
                 <option>CST</option>
@@ -42,7 +45,7 @@
             <% } else {%>
                 <% classes.forEach( function(class_){ %> 
                 <div>
-                    <i><%= class_.quote %></i> <br>
+                    <br>
                     <a href="/classPage?classId=<%= class_.id %>">-<%= class_.subject %> <%= class_.classNumber %> </a>
                 </div>
                 <br><br>

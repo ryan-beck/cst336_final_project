@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> regular</title>
+        <title> <%= classInfo.title %></title>
         
         <style>
             
@@ -26,9 +26,13 @@
     <body>
         
             <h1> <%= classInfo.subject + " " + classInfo.classNumber + ": " + classInfo.title %> </h1>
-            <button>Join Class</button> <br> <br>
+
+            <a onclick="addConfirm()" class="addClass" href="/addClass?classId=<%= classInfo.id %>">JOIN</a><br>
+            <%= typeof(message) != "undefined"?message:"" %>
+            <br> <br>
             
             <form method="POST" action="/newPost?classId=<%= classInfo.id %>">
+                <button type="button" value="Join Class" onclick="/login"> <br><br>
                 Create new post: <br>
                 <textarea rows = "5" cols = "60" name = "text"></textarea><br>
                 <input type = "submit" value = "Post" name="text"/>

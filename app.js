@@ -32,11 +32,6 @@ app.post("/search", async function(req, res){
 });
 
 
-//testing login for regular users
-app.get("/regular", function(req, res){
-    res.render("regular");
-});
-
 
 app.get("/admin", async function(req, res) {
     if (req.session.authenticated) {
@@ -131,6 +126,28 @@ app.post("/newPost", async function(req, res) {
     res.redirect("/classPage?classId="+req.query.classId);
 });
 
+app.get("/addClass", async function(req, res){
+//as long as class is added, message will display. if class is unadded, message should disappear 
+    let rows = await addClass(req.query.classId);
+    let message = "undefined";
+    if (rows.affectedRows > 0) {
+        message = "Class has been added to your list.";
+    }
+    
+    console.log(rows);
+    let id = parseInt(req.query.classId);
+    //console.log("id: " + id);
+    let comments = await getComments(id);
+    let class_ = await getClassInfo(id);
+    //console.log(class_);
+    if(Object.entries(comments).length === 0 ) {
+        comments = "None";
+    }
+    res.render("classPage", {"comments":comments, "classInfo":class_, "message":message});
+
+  
+});
+
 app.post("/loginProcess", async function(req, res) {
     
     let users = await getUsers();
@@ -174,6 +191,33 @@ app.get("/logout", function(req, res) {
     req.session.destroy();
     res.redirect("/");
 });
+
+function addClass(classId){
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!");
+        
+            let sql = `UPDATE project_classes 
+                      SET isAdded = 1
+                      WHERE id = ?
+                      `;
+            // console.log(sql); 
+            let params = [classId]
+            conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+            //   res.send(rows);
+              conn.end();
+            //   console.log(rows);
+              resolve(rows);
+           });
+        
+        });//connect
+    });//promise
+
+}
 
 function newPost(text, username, classId, threadId, identifier) {
     let conn = dbConnection();
@@ -370,8 +414,6 @@ function searchClasses(body) {
     });//promise 
 }
 
-<<<<<<< HEAD
-=======
 function getComments(classId) {
     let conn = dbConnection();
     
@@ -401,7 +443,6 @@ function getComments(classId) {
 }
     
 
->>>>>>> 88e3193b39b244301da4be08060ae031c0168c90
 function getClassList(){
    
    let conn = dbConnection();
