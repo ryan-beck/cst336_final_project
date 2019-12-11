@@ -20,4 +20,4 @@ This website is designed to facilitate conversation between classmates at CSUMB.
 
 ![](https://i.imgur.com/a1C9284.png)
 
-
+![](https://i.imgur.com/CH3R0Ly.jpg)
